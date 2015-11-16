@@ -59,6 +59,7 @@ define local_user (
       managehome       => true,
       groups           => $groups,
       password_max_age => $password_max_age,
+      password         => $password,
     }
     if ($ssh_authorized_keys) {
       local_user::ssh_authorized_keys{$ssh_authorized_keys:
@@ -67,22 +68,22 @@ define local_user (
       User[$name] -> Local_user::Ssh_authorized_keys[$ssh_authorized_keys]
     }
 
-    case $::osfamily {
-      'RedHat':  {
-        $action = "/bin/sed -i -e 's/${name}:!!:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"
-      }
-      'Debian':  {
-        $action = "/bin/sed -i -e 's/${name}:x:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"
-      }
-      default: { }
-    }
+    # case $::osfamily {
+    #   'RedHat':  {
+    #     $action = "/bin/sed -i -e 's/${name}:!!:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"
+    #   }
+    #   'Debian':  {
+    #     $action = "/bin/sed -i -e 's/${name}:x:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"
+    #   }
+    #   default: { }
+    # }
 
-    exec { "set ${name}'s password":
-      command => $action,
-      path    => '/usr/bin:/usr/sbin:/bin',
-      onlyif  => "egrep -q  -e '${name}:!!:' -e '${name}:x:' /etc/shadow",
-      require => User[$name],
-    }
+    # exec { "set ${name}'s password":
+    #   command => $action,
+    #   path    => '/usr/bin:/usr/sbin:/bin',
+    #   onlyif  => "egrep -q  -e '${name}:!!:' -e '${name}:x:' /etc/shadow",
+    #   require => User[$name],
+    # }
   }
 
 }

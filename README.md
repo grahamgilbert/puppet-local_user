@@ -1,9 +1,5 @@
 # local_user
 
-[![Build Status](https://travis-ci.org/rnelson0/puppet-local_user.png?branch=master)](https://travis-ci.org/rnelson0/puppet-local_user)
-[![Puppet Forge](http://img.shields.io/puppetforge/v/rnelson0/local_user.svg)](https://forge.puppetlabs.com/rnelson0/local_user)
-[![Puppet Forge Downloads](http://img.shields.io/puppetforge/dt/rnelson0/local_user.svg)](https://forge.puppetlabs.com/rnelson0/local_user)
-
 #### Table of Contents
 
 1. [Overview](#overview)
@@ -12,15 +8,12 @@
 ## Overview
 
 This module provides a defined type, local_user, that wraps the puppet 'user'
-resource type with validation. You may also provide a initial password that is
-set only when the user has no password, as a brand new 'user' resource puppet
-creates will have. This allows users to maintain their own passwords after
-creation.
+resource type with validation. 
 
 ## Usage
 
 Create a local user by providing at a minimum the user name, state, comment,
-groups, and initial password:
+groups, and password:
 
     local_user { 'username':
       state            => 'present',
